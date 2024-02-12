@@ -6,6 +6,8 @@ const uuid = require('uuid');
 
 const app = express();  //create an Express application
 app.use(express.json()); //body parser middleware
+app.use(express.urlencoded({ extended: true }));
+
 
 //GET Notes HTML path
 app.get('/notes', (req, res) => {
@@ -62,13 +64,40 @@ app.post('/api/notes', (req, res) => {
             );
         }
     });
-})
+});
+
+app.delete('/api/notes/:noteID', (req, res) => {
+    console.log('Request received to delete note ID: ', req.params.noteID)
+    const idToDelete = req.params.noteID;
+    // Obtain existing notes
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+        } else {
+            const parsedNotes = JSON.parse(data); // Convert string into JSON object
+            console.log('parsedNotes before', parsedNotes);
+            const newList = parsedNotes.filter(note => note.id !== idToDelete);   // delete the specified note
+            console.log('after', newList);
+
+            // Write updated notes to the file
+            fs.writeFile('./db/db.json',
+            JSON.stringify(newList, null, 4),
+            (writeErr) =>
+                writeErr
+                ? console.error(writeErr)
+                : res.send(newList), console.info('Successfully deleted note')
+            );
+        }
+    });
+
+});
+
 
 // Wildcard HTML path
 app.get('*', (req, res) => {
     const indexFilePath = path.join(__dirname, 'public', 'index.html');
     res.sendFile(indexFilePath);
-})
+});
 
 //start the server
 const PORT = process.env.PORT || 3000;
