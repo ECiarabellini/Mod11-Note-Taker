@@ -9,9 +9,13 @@ app.use(express.json()); //body parser middleware
 app.use(express.urlencoded({ extended: true }));
 
 
+//start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 //GET Notes HTML path
 app.get('/notes', (req, res) => {
-    const notesFilePath = path.join(__dirname, 'public', 'notes.html');
+    const notesFilePath = path.join(__dirname, './public/notes.html');
     res.sendFile(notesFilePath);
 });
 
@@ -24,7 +28,7 @@ app.get('/api/notes', (req, res) => {
         } else {
             // Convert string into JSON object
             const parsedNotes = JSON.parse(data)
-            res.send(parsedNotes);
+            res.JSON(parsedNotes);
         }
     });
 });
@@ -95,10 +99,6 @@ app.delete('/api/notes/:noteID', (req, res) => {
 
 // Wildcard HTML path
 app.get('*', (req, res) => {
-    const indexFilePath = path.join(__dirname, 'public', 'index.html');
+    const indexFilePath = path.join(__dirname, './public/index.html');
     res.sendFile(indexFilePath);
 });
-
-//start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
