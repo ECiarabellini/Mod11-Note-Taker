@@ -12,7 +12,7 @@ In it's current state, the GET, POST, and DELETE API requests in the server.js f
 
 ## Usage
 tbd
-![screenshot](none)
+![screenshot](./screenshot.png)
 
 ## Credits
 I learned a lot from this [youtube tutorial] https://www.youtube.com/watch?v=L72fhGm1tfE

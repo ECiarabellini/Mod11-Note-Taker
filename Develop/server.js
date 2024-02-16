@@ -28,7 +28,7 @@ app.get('/api/notes', (req, res) => {
         } else {
             // Convert string into JSON object
             const parsedNotes = JSON.parse(data)
-            res.JSON(parsedNotes);
+            res.send(parsedNotes);
         }
     });
 });
