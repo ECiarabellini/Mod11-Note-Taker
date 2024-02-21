@@ -4,7 +4,7 @@
 
 ## Description
 The purpose of this project was to use Express.js to create a backend server for a prewritten front-end. The application saves and retrieves note data from a JSON file.
-In its current state, the GET, POST, and DELETE API requests in the server.js file work in Insomnia, but I cannot figure out why the note.html page is not functional. Any feedback would be greatly appreciated!
+
 
 ## Installation
 - [Repository on GitHub](https://github.com/eciarabellini/Mod11-Note-Taker)
