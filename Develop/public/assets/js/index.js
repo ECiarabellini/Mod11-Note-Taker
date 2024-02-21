@@ -29,7 +29,6 @@ const hide = (elem) => {
 let activeNote = {};
 
 const getNotes = () =>
-  console.log('getNotes');
   fetch('/api/notes', {
     method: 'GET',
     headers: {
@@ -134,7 +133,7 @@ const renderNoteList = async (notes) => {
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
-  console.log('136');
+
   let noteListItems = [];
 
   // Returns HTML element with or without a delete button

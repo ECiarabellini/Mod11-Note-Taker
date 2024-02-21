@@ -4,20 +4,15 @@ const fs = require('fs');
 const util = require('util');
 const uuid = require('uuid');
 
+
 const app = express();  //create an Express application
 app.use(express.json()); //body parser middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 
 //start the server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-//GET Notes HTML path
-app.get('/notes', (req, res) => {
-    const notesFilePath = path.join(__dirname, './public/notes.html');
-    res.sendFile(notesFilePath);
-});
 
 //GET notes API path
 app.get('/api/notes', (req, res) => {
@@ -27,8 +22,8 @@ app.get('/api/notes', (req, res) => {
             console.error(err);
         } else {
             // Convert string into JSON object
-            const parsedNotes = JSON.parse(data)
-            res.send(parsedNotes);
+            const parsedNotes = JSON.parse(data);
+            res.json(parsedNotes);
         }
     });
 });
@@ -50,8 +45,8 @@ app.post('/api/notes', (req, res) => {
         return res.status(400).json('Please include note title and text.')
     }
 
-    // Obtain existing notes
-    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+// Obtain existing notes
+fs.readFile('./db/db.json', 'utf8', (err, data) => {
         if (err) {
             console.error(err);
         } else {
@@ -96,9 +91,14 @@ app.delete('/api/notes/:noteID', (req, res) => {
 
 });
 
-
-// Wildcard HTML path
-app.get('*', (req, res) => {
-    const indexFilePath = path.join(__dirname, './public/index.html');
-    res.sendFile(indexFilePath);
+//GET Notes HTML path
+app.get('/notes', (req, res) => {
+    const notesFilePath = path.join(__dirname, './public/notes.html');
+    res.sendFile(notesFilePath);
 });
+
+app.get('*', (req,res) => {
+    res.sendFile(path.join(__dirname,'/public/index.html'))
+});
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
